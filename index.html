@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff5de">
+  <title>LIFE, LOL! — 2026</title>
+  <style>
+    :root {
+      --ink:#1f1b2d; --paper:#fffaf0; --cream:#fff1cf; --red:#ef5b5b; --blue:#3d7ee8;
+      --mint:#43b89c; --yellow:#f3c84b; --purple:#8c68d6; --orange:#ef8d3d; --pink:#e56ca6;
+      --shadow:0 16px 40px rgba(44,36,61,.14); --line:3px solid var(--ink);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;color:var(--ink);background:
+      radial-gradient(circle at 15% 10%,rgba(239,91,91,.17),transparent 28%),
+      radial-gradient(circle at 85% 18%,rgba(61,126,232,.16),transparent 25%),
+      linear-gradient(135deg,#fff8e9,#f9f0ff);font-family:Inter,ui-rounded,"Arial Rounded MT Bold",system-ui,sans-serif}
+    button,input,select{font:inherit}
+    button{color:inherit}
+    .shell{width:min(1480px,96vw);margin:0 auto;padding:18px 0 34px}
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px}
+    .brand{display:flex;align-items:center;gap:12px;min-width:0}
+    .logo{width:58px;height:58px;display:grid;place-items:center;background:var(--yellow);border:var(--line);border-radius:18px;box-shadow:5px 5px 0 var(--ink);font-size:31px;transform:rotate(-3deg)}
+    .brand h1{margin:0;font-size:clamp(1.4rem,3vw,2.35rem);line-height:.92;letter-spacing:-.05em;text-transform:uppercase}
+    .brand p{margin:5px 0 0;color:#655f70;font-weight:800;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase}
+    .controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    .lang{display:flex;background:white;border:2px solid var(--ink);border-radius:999px;padding:3px;box-shadow:3px 3px 0 var(--ink)}
+    .lang button{border:0;background:transparent;border-radius:999px;padding:7px 11px;font-size:.75rem;font-weight:1000;cursor:pointer}
+    .lang button.active{background:var(--ink);color:white}
+    .icon-btn{border:2px solid var(--ink);background:white;border-radius:12px;padding:9px 12px;cursor:pointer;font-weight:900;box-shadow:3px 3px 0 var(--ink)}
+    .icon-btn:hover,.primary:hover,.choice:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--ink)}
+    .setup{background:rgba(255,250,240,.9);border:var(--line);border-radius:28px;box-shadow:var(--shadow),8px 8px 0 var(--ink);padding:clamp(22px,4vw,48px);max-width:900px;margin:5vh auto 0;position:relative;overflow:hidden}
+    .setup:after{content:"2026";position:absolute;right:-16px;bottom:-38px;font-size:clamp(7rem,22vw,14rem);font-weight:1000;letter-spacing:-.1em;color:rgba(31,27,45,.055);transform:rotate(-7deg);pointer-events:none}
+    .kicker{display:inline-block;background:var(--red);color:white;border:2px solid var(--ink);padding:6px 12px;border-radius:999px;font-weight:1000;text-transform:uppercase;letter-spacing:.1em;font-size:.72rem;transform:rotate(-1deg)}
+    .setup h2{font-size:clamp(2rem,6vw,4.8rem);line-height:.9;letter-spacing:-.06em;margin:20px 0 14px;max-width:760px}
+    .setup .lead{font-size:clamp(1rem,2vw,1.25rem);line-height:1.55;max-width:680px;color:#514b5d;font-weight:650}
+    .pill-row{display:flex;flex-wrap:wrap;gap:10px;margin:24px 0}
+    .pill{border:2px solid var(--ink);border-radius:999px;padding:9px 14px;font-weight:950;background:white;box-shadow:3px 3px 0 var(--ink)}
+    .player-count{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:24px 0 12px}
+    .player-count label{font-weight:1000;margin-right:7px}
+    .count-btn{width:42px;height:42px;border:2px solid var(--ink);background:white;border-radius:12px;font-weight:1000;cursor:pointer;box-shadow:3px 3px 0 var(--ink)}
+    .count-btn.active{background:var(--blue);color:white}
+    .names{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:650px;margin:14px 0 24px;position:relative;z-index:1}
+    .name-wrap{display:flex;align-items:center;gap:8px;background:white;border:2px solid var(--ink);border-radius:14px;padding:5px 10px;box-shadow:3px 3px 0 var(--ink)}
+    .name-wrap span{font-size:1.3rem}
+    .name-wrap input{width:100%;border:0;outline:0;padding:9px 3px;font-weight:850;background:transparent}
+    .primary{position:relative;z-index:1;border:var(--line);background:var(--yellow);border-radius:16px;padding:14px 21px;font-weight:1000;text-transform:uppercase;letter-spacing:.05em;cursor:pointer;box-shadow:6px 6px 0 var(--ink);transition:.12s}
+    .game{display:none;grid-template-columns:minmax(610px,1.45fr) minmax(340px,.72fr);gap:18px;align-items:start}
+    .board-wrap{background:rgba(255,250,240,.88);border:var(--line);border-radius:26px;padding:14px;box-shadow:var(--shadow),7px 7px 0 var(--ink)}
+    .board{display:grid;grid-template-columns:repeat(6,minmax(74px,1fr));gap:8px;aspect-ratio:1.32}
+    .space{position:relative;min-width:0;border:2px solid var(--ink);border-radius:16px;padding:7px;background:white;box-shadow:3px 3px 0 var(--ink);overflow:hidden;transition:.2s}
+    .space.current{outline:5px solid rgba(243,200,75,.8);transform:translateY(-2px)}
+    .space .num{font-size:.63rem;font-weight:1000;opacity:.55}
+    .space .space-icon{position:absolute;right:7px;top:6px;font-size:clamp(1rem,2vw,1.45rem)}
+    .space .label{position:absolute;left:7px;right:5px;bottom:7px;font-size:clamp(.48rem,.83vw,.68rem);line-height:1.05;font-weight:1000;text-transform:uppercase;letter-spacing:.02em;overflow-wrap:anywhere}
+    .tokens{position:absolute;left:7px;top:28px;display:flex;flex-wrap:wrap;gap:3px;max-width:70%}
+    .token{width:19px;height:19px;border:2px solid var(--ink);border-radius:50%;display:grid;place-items:center;color:white;font-size:.55rem;font-weight:1000;box-shadow:1px 1px 0 var(--ink)}
+    .c-start{background:#fff6c9}.c-finish{background:#ffd7dd}.c-subscription{background:#dceaff}.c-ai{background:#e6dcff}.c-shopping{background:#ffe1cc}.c-homeoffice{background:#d9f3ed}.c-relationship{background:#ffdcea}.c-career{background:#fff2b7}.c-luck{background:#daf2d1}.c-decision{background:repeating-linear-gradient(135deg,#fff,#fff 8px,#ffe7a1 8px,#ffe7a1 16px)}
+    .side{display:grid;gap:14px;position:sticky;top:12px}
+    .panel{background:rgba(255,250,240,.92);border:var(--line);border-radius:22px;padding:16px;box-shadow:var(--shadow),5px 5px 0 var(--ink)}
+    .turnline{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+    .turnline h2{margin:0;font-size:1.2rem}
+    .round{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:1000;background:var(--cream);border:2px solid var(--ink);border-radius:999px;padding:5px 9px}
+    .dice-zone{display:grid;grid-template-columns:90px 1fr;gap:12px;align-items:center}
+    .die{width:84px;height:84px;border:3px solid var(--ink);border-radius:20px;background:white;display:grid;place-items:center;font-size:2.6rem;font-weight:1000;box-shadow:5px 5px 0 var(--ink);user-select:none}
+    .roll-copy p{margin:0 0 10px;color:#686171;font-size:.85rem;line-height:1.4}
+    .roll{width:100%;border:2px solid var(--ink);border-radius:13px;background:var(--red);color:white;padding:11px;font-weight:1000;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;box-shadow:4px 4px 0 var(--ink)}
+    .roll:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+    .players{display:grid;gap:8px}
+    .player-card{display:grid;grid-template-columns:auto 1fr;gap:9px;border:2px solid transparent;border-radius:15px;padding:9px;background:white;transition:.2s}
+    .player-card.active{border-color:var(--ink);box-shadow:3px 3px 0 var(--ink);transform:translateX(-2px)}
+    .avatar{width:34px;height:34px;border:2px solid var(--ink);border-radius:50%;display:grid;place-items:center;color:white;font-weight:1000}
+    .player-card h3{margin:0 0 5px;font-size:.92rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .stats{display:flex;flex-wrap:wrap;gap:5px}
+    .stat{border:1.5px solid var(--ink);border-radius:999px;background:var(--paper);padding:3px 6px;font-size:.67rem;font-weight:900}
+    .log{max-height:155px;overflow:auto;padding-right:4px}
+    .log h3{margin:0 0 8px;font-size:.92rem;text-transform:uppercase;letter-spacing:.06em}
+    .log-entry{font-size:.73rem;line-height:1.35;padding:7px 0;border-top:1px dashed #b9b0bd}
+    .log-entry:first-of-type{border-top:0}
+    .legend{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+    .legend span{font-size:.62rem;font-weight:900;border:1px solid var(--ink);border-radius:999px;padding:3px 6px;background:white}
+    .modal{position:fixed;inset:0;background:rgba(31,27,45,.72);display:none;place-items:center;padding:18px;z-index:20;backdrop-filter:blur(6px)}
+    .modal.show{display:grid}
+    .event-card{width:min(620px,95vw);max-height:90vh;overflow:auto;background:var(--paper);border:3px solid var(--ink);border-radius:28px;box-shadow:10px 10px 0 var(--ink);padding:clamp(20px,5vw,38px);position:relative;animation:pop .25s ease-out}
+    @keyframes pop{from{transform:scale(.86) rotate(-2deg);opacity:0}to{transform:scale(1);opacity:1}}
+    .event-icon{font-size:3.6rem;filter:drop-shadow(3px 3px 0 rgba(31,27,45,.16))}
+    .event-tag{display:inline-block;margin-left:8px;vertical-align:top;border:2px solid var(--ink);border-radius:999px;padding:5px 9px;background:white;font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;font-weight:1000}
+    .event-card h2{font-size:clamp(1.55rem,5vw,2.45rem);line-height:1.02;letter-spacing:-.04em;margin:18px 0 10px}
+    .event-card .joke{font-size:1.05rem;line-height:1.5;color:#5d5668;font-weight:650;margin:0 0 18px}
+    .effect-box{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}
+    .effect{border:2px solid var(--ink);background:white;border-radius:13px;padding:9px 11px;font-weight:1000;box-shadow:2px 2px 0 var(--ink)}
+    .choices{display:grid;gap:9px;margin-top:20px}
+    .choice{text-align:left;border:2px solid var(--ink);background:white;border-radius:14px;padding:12px 14px;cursor:pointer;box-shadow:3px 3px 0 var(--ink);transition:.1s}
+    .choice strong{display:block;margin-bottom:3px}
+    .choice small{font-weight:800;color:#615b6a}
+    .continue{width:100%;margin-top:16px}
+    .end-card{text-align:center}
+    .end-card h2{font-size:clamp(2rem,6vw,4rem);margin:8px 0}
+    .ranking{display:grid;gap:8px;margin:20px 0;text-align:left}
+    .rank{display:grid;grid-template-columns:40px 1fr auto;align-items:center;gap:8px;background:white;border:2px solid var(--ink);border-radius:14px;padding:10px;box-shadow:3px 3px 0 var(--ink)}
+    .rank .place{font-size:1.4rem;font-weight:1000}.rank .score{font-weight:1000}
+    .fineprint{margin-top:22px;color:#736c78;font-size:.68rem;font-weight:750;line-height:1.4}
+    .confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:30}
+    .confetti i{position:absolute;top:-20px;width:10px;height:18px;animation:fall 2.7s linear forwards}
+    @keyframes fall{to{transform:translateY(110vh) rotate(780deg)}}
+    @media(max-width:1000px){.game{grid-template-columns:1fr}.side{position:static;grid-template-columns:1fr 1fr}.side .panel:first-child{grid-column:1/-1}.board{aspect-ratio:auto;min-height:620px}}
+    @media(max-width:650px){.shell{width:94vw}.topbar{align-items:flex-start}.brand p{display:none}.logo{width:48px;height:48px}.controls{gap:6px}.icon-btn{padding:8px}.names{grid-template-columns:1fr}.setup{border-radius:22px}.board-wrap{overflow-x:auto;padding:10px}.board{min-width:630px;min-height:580px}.side{grid-template-columns:1fr}.side .panel:first-child{grid-column:auto}.event-card{border-radius:22px}.space .label{font-size:.58rem}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand"><div class="logo">🎡</div><div><h1>LIFE, LOL! <span style="color:var(--red)">2026</span></h1><p id="subtitle">Geld. Glück. Zeit. Irgendwas fehlt immer.</p></div></div>
+      <div class="controls">
+        <div class="lang" aria-label="Language"><button data-lang="de" class="active">DE</button><button data-lang="en">EN</button><button data-lang="it">IT</button></div>
+        <button class="icon-btn" id="restartBtn" title="Neu starten">↻</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="setup" id="setup">
+        <span class="kicker" id="kicker">Das unplanbare Brettspiel</span>
+        <h2 id="setupTitle">Erwachsen sein.<br>Aber mit Würfel.</h2>
+        <p class="lead" id="setupLead">Manövriert euch durch Abos, KI, Online-Shopping, Homeoffice, Beziehungen und Karriere. Gewonnen hat nicht zwingend, wer reich ist – sondern wer am Ende noch Geld, Glück und Zeit übrig hat.</p>
+        <div class="pill-row"><span class="pill">💰 <span id="moneyLabel">Geld</span></span><span class="pill">❤️ <span id="happyLabel">Glück</span></span><span class="pill">⏱️ <span id="timeLabel">Zeit</span></span></div>
+        <div class="player-count"><label id="playerCountLabel">Spieler:innen</label><button class="count-btn" data-count="1">1</button><button class="count-btn active" data-count="2">2</button><button class="count-btn" data-count="3">3</button><button class="count-btn" data-count="4">4</button></div>
+        <div class="names" id="names"></div>
+        <button class="primary" id="startBtn">Spiel starten →</button>
+        <p class="fineprint" id="setupNote">Spielzeit: ca. 15–25 Minuten · Lokaler Prototyp · Keine Datenübertragung</p>
+      </section>
+
+      <section class="game" id="game">
+        <div class="board-wrap"><div class="board" id="board" aria-label="Game board"></div></div>
+        <aside class="side">
+          <section class="panel">
+            <div class="turnline"><h2 id="turnTitle">Du bist dran</h2><span class="round" id="roundLabel">Runde 1</span></div>
+            <div class="dice-zone"><div class="die" id="die">⚄</div><div class="roll-copy"><p id="turnHint">Würfeln, lachen, Konsequenzen tragen.</p><button class="roll" id="rollBtn">Würfeln</button></div></div>
+          </section>
+          <section class="panel"><div class="players" id="players"></div></section>
+          <section class="panel"><div class="log" id="log"><h3 id="logTitle">Was bisher geschah</h3></div><div class="legend" id="legend"></div></section>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal" id="eventModal" role="dialog" aria-modal="true"><article class="event-card" id="eventCard"></article></div>
+  <div class="modal" id="endModal" role="dialog" aria-modal="true"><article class="event-card end-card" id="endCard"></article></div>
+  <div class="confetti" id="confetti"></div>
+
+  <script>
+  (() => {
+    'use strict';
+    const L = {
+      de:{subtitle:'Geld. Glück. Zeit. Irgendwas fehlt immer.',kicker:'Das unplanbare Brettspiel',setupTitle:'Erwachsen sein.<br>Aber mit Würfel.',setupLead:'Manövriert euch durch Abos, KI, Online-Shopping, Homeoffice, Beziehungen und Karriere. Gewonnen hat nicht zwingend, wer reich ist – sondern wer am Ende noch Geld, Glück und Zeit übrig hat.',money:'Geld',happy:'Glück',time:'Zeit',players:'Spieler:innen',start:'Spiel starten →',note:'Spielzeit: ca. 15–25 Minuten · Lokaler Prototyp · Keine Datenübertragung',player:'Spieler:in',turn:'ist dran',round:'Runde',hint:'Würfeln, lachen, Konsequenzen tragen.',roll:'Würfeln',rolling:'Das Schicksal lädt …',log:'Was bisher geschah',continue:'Konsequenzen akzeptieren →',choose:'Triff deine fragwürdig gute Entscheidung:',finish:'Ziel',startSpace:'Start',finalTitle:'Das Leben ist passiert!',finalText:'Reich? Glücklich? Pünktlich? Zwei von drei wären schon stark.',again:'Nochmal leben ↻',score:'Lebenspunkte',rolled:'würfelt',landed:'landet auf',winner:'gewinnt diese höchst seriöse Lebenssimulation!',restart:'Neu starten?',restartText:'Der aktuelle Spielstand geht verloren.',yes:'Ja, neu starten',no:'Weiterspielen',categories:{subscription:'Abos',ai:'KI & Tech',shopping:'Shopping',homeoffice:'Homeoffice',relationship:'Beziehungen',career:'Karriere',luck:'Glücksfall',decision:'Entscheidung'},effects:{money:'Geld',happy:'Glück',time:'Zeit'}},
+      en:{subtitle:'Money. Happiness. Time. Something is always missing.',kicker:'The unpredictable board game',setupTitle:'Being an adult.<br>But with dice.',setupLead:'Navigate subscriptions, AI, online shopping, remote work, relationships and careers. The winner is not necessarily the richest – but whoever still has money, happiness and time left.',money:'Money',happy:'Happiness',time:'Time',players:'Players',start:'Start game →',note:'Play time: approx. 15–25 minutes · Local prototype · No data transfer',player:'Player',turn:'is up',round:'Round',hint:'Roll, laugh, live with the consequences.',roll:'Roll dice',rolling:'Fate is loading …',log:'Previously in your life',continue:'Accept consequences →',choose:'Make your questionably good decision:',finish:'Finish',startSpace:'Start',finalTitle:'Life happened!',finalText:'Rich? Happy? On time? Two out of three is impressive.',again:'Live again ↻',score:'Life points',rolled:'rolled',landed:'landed on',winner:'wins this extremely serious life simulation!',restart:'Restart?',restartText:'The current game will be lost.',yes:'Yes, restart',no:'Keep playing',categories:{subscription:'Subscriptions',ai:'AI & tech',shopping:'Shopping',homeoffice:'Remote work',relationship:'Relationships',career:'Career',luck:'Lucky break',decision:'Decision'},effects:{money:'Money',happy:'Happiness',time:'Time'}},
+      it:{subtitle:'Soldi. Felicità. Tempo. Manca sempre qualcosa.',kicker:'Il gioco da tavolo imprevedibile',setupTitle:'Essere adulti.<br>Ma con un dado.',setupLead:'Affrontate abbonamenti, IA, shopping online, smart working, relazioni e carriera. Non vince per forza chi è più ricco, ma chi alla fine ha ancora soldi, felicità e tempo.',money:'Soldi',happy:'Felicità',time:'Tempo',players:'Giocatori',start:'Inizia la partita →',note:'Durata: circa 15–25 minuti · Prototipo locale · Nessun dato trasmesso',player:'Giocatore',turn:'tocca a',round:'Round',hint:'Tira, ridi, accetta le conseguenze.',roll:'Tira il dado',rolling:'Il destino sta caricando …',log:'La tua vita finora',continue:'Accetta le conseguenze →',choose:'Prendi la tua decisione discutibilmente buona:',finish:'Arrivo',startSpace:'Partenza',finalTitle:'La vita è successa!',finalText:'Ricco? Felice? Puntuale? Due su tre è già un successo.',again:'Vivi di nuovo ↻',score:'Punti vita',rolled:'ha tirato',landed:'è arrivato su',winner:'vince questa serissima simulazione di vita!',restart:'Ricominciare?',restartText:'La partita attuale andrà persa.',yes:'Sì, ricomincia',no:'Continua',categories:{subscription:'Abbonamenti',ai:'IA & tech',shopping:'Shopping',homeoffice:'Smart working',relationship:'Relazioni',career:'Carriera',luck:'Colpo di fortuna',decision:'Decisione'},effects:{money:'Soldi',happy:'Felicità',time:'Tempo'}}
+    };
+    const T=(de,en,it)=>({de,en,it});
+    const cards = [
+      {cat:'subscription',icon:'📺',title:T('Dein Gratis-Probeabo wird kostenpflichtig','Your free trial becomes paid','La prova gratuita diventa a pagamento'),joke:T('Du wolltest gestern kündigen. Seit elf Monaten.','You meant to cancel yesterday. For eleven months.','Volevi disdire ieri. Da undici mesi.'),fx:{money:-180,time:-1}},
+      {cat:'subscription',icon:'🧾',title:T('Abo-Inventur','Subscription audit','Inventario degli abbonamenti'),joke:T('Sieben Dienste. Drei Passwörter. Eine Serie.','Seven services. Three passwords. One show.','Sette servizi. Tre password. Una serie.'),fx:{money:-320,happy:-1}},
+      {cat:'subscription',icon:'☁️',title:T('Cloud-Speicher voll','Cloud storage full','Spazio cloud esaurito'),joke:T('14.382 Fotos. Davon 6.000 Screenshots, die du „später“ brauchst.','14,382 photos. 6,000 are screenshots you will “need later.”','14.382 foto. 6.000 sono screenshot che ti serviranno “dopo”.'),fx:{money:-120}},
+      {cat:'subscription',icon:'🏋️',title:T('Fitnessstudio läuft hervorragend','Your gym membership is thriving','L’abbonamento in palestra va alla grande'),joke:T('Du selbst warst seit März nicht dort. Aber der Beitrag ist topfit.','You have not been since March. Your direct debit is in excellent shape.','Tu non ci vai da marzo. Ma l’addebito è in forma smagliante.'),fx:{money:-420,time:1}},
+
+      {cat:'ai',icon:'🤖',title:T('KI spart dir drei Stunden','AI saves you three hours','L’IA ti fa risparmiare tre ore'),joke:T('Du investierst zwei davon, um anderen zu erzählen, wie viel Zeit du sparst.','You spend two of them telling people how much time you saved.','Ne spendi due raccontando a tutti quanto tempo hai risparmiato.'),fx:{money:450,time:2,happy:1}},
+      {cat:'ai',icon:'🔎',title:T('KI erfindet eine Quelle','AI invents a source','L’IA inventa una fonte'),joke:T('Sie klang wissenschaftlich. Das war ihr stärkstes Argument.','It sounded academic. That was its strongest argument.','Sembrava scientifica. Era il suo argomento migliore.'),fx:{money:-700,time:-2}},
+      {cat:'ai',icon:'🔄',title:T('Update vor der Präsentation','Update before the presentation','Aggiornamento prima della presentazione'),joke:T('Noch 3 Minuten. Der Computer ist zu 8 % begeistert.','Three minutes to go. Your computer is 8% excited.','Mancano 3 minuti. Il computer è entusiasta all’8%.'),fx:{time:-2,happy:-1}},
+      {cat:'ai',icon:'🛡️',title:T('Passwort erfolgreich geändert','Password successfully changed','Password cambiata con successo'),joke:T('Es darf keinem deiner letzten 47 Passwörter ähneln. Du weißt nun selbst nicht mehr, wer du bist.','It cannot resemble your last 47 passwords. You no longer know who you are.','Non può somigliare alle ultime 47. Ora non sai più nemmeno chi sei.'),fx:{time:-1,happy:-1}},
+
+      {cat:'shopping',icon:'📦',title:T('Paket angekommen','Package delivered','Pacco consegnato'),joke:T('Eine Überraschung von deinem Ich vor 48 Stunden.','A surprise from the person you were 48 hours ago.','Una sorpresa dal te stesso di 48 ore fa.'),fx:{money:-140,happy:1}},
+      {cat:'shopping',icon:'🛒',title:T('Du brauchst nur zwei Dinge','You only need two things','Ti servono solo due cose'),joke:T('Der Warenkorb hat andere Pläne.','Your cart has other plans.','Il carrello ha altri piani.'),fx:{money:-360,time:-1}},
+      {cat:'shopping',icon:'↩️',title:T('Rücksendefrist verpasst','Return window missed','Reso scaduto'),joke:T('Der Karton stand wochenlang sichtbar an der Tür. Unsichtbar wäre auffälliger gewesen.','The box sat by the door for weeks. It could not have been more visible.','La scatola è rimasta settimane davanti alla porta. Più visibile di così.'),fx:{money:-220,happy:-1}},
+      {cat:'shopping',icon:'💸',title:T('Altes Zeug online verkauft','You sell old stuff online','Vendi online cose vecchie'),joke:T('Jemand zahlt Geld für etwas, das du beinahe weggeworfen hättest. Kapitalismus kann Magie.','Someone pays for something you almost threw away. Capitalism can be magical.','Qualcuno paga per una cosa che stavi per buttare. Il capitalismo sa fare magie.'),fx:{money:480,time:-1,happy:1}},
+
+      {cat:'homeoffice',icon:'🎤',title:T('„Du bist noch auf Mute.“','“You are still on mute.”','“Hai ancora il microfono spento.”'),joke:T('Dein brillantester Satz des Tages. Exklusiv für dich.','Your most brilliant sentence today. An exclusive performance.','La frase più brillante della giornata. In esclusiva per te.'),fx:{happy:-1}},
+      {cat:'homeoffice',icon:'📧',title:T('Dieses Meeting war eine E-Mail','This meeting was an email','Questa riunione era un’email'),joke:T('Aber was hätte man dann mit den restlichen 57 Minuten gemacht?','But what would everyone have done with the other 57 minutes?','Ma cosa avreste fatto negli altri 57 minuti?'),fx:{time:-2}},
+      {cat:'homeoffice',icon:'🩳',title:T('Kamera versehentlich an','Camera accidentally on','Videocamera accesa per sbaglio'),joke:T('Business oben. Wochenende unten.','Business on top. Weekend below.','Business sopra. Weekend sotto.'),fx:{happy:-2,time:-1}},
+      {cat:'homeoffice',icon:'🧺',title:T('Homeoffice-Multitasking','Remote-work multitasking','Multitasking in smart working'),joke:T('Präsentation fertig, Wäsche gewaschen, Paket angenommen. Verdächtig produktiv.','Deck finished, laundry done, package collected. Suspiciously productive.','Presentazione finita, bucato fatto, pacco ritirato. Sospettosamente produttivo.'),fx:{time:2,happy:1,money:150}},
+
+      {cat:'relationship',icon:'💘',title:T('Dating-App Premium','Premium dating app','App di incontri premium'),joke:T('Mehr Auswahl, mehr Filter, effizientere Enttäuschung.','More choice, more filters, more efficient disappointment.','Più scelta, più filtri, delusioni più efficienti.'),fx:{money:-120,time:-1}},
+      {cat:'relationship',icon:'💍',title:T('Hochzeitseinladung','Wedding invitation','Invito a un matrimonio'),joke:T('Anreise, Hotel, Geschenk, Outfit. Die Liebe gewinnt. Deine Bilanz nicht.','Travel, hotel, gift, outfit. Love wins. Your balance does not.','Viaggio, hotel, regalo, vestito. Vince l’amore. Non il tuo conto.'),fx:{money:-850,happy:2,time:-1}},
+      {cat:'relationship',icon:'🐕',title:T('Ein Hund zieht ein','A dog moves in','Arriva un cane'),joke:T('Beste Entscheidung deines Lebens. Finanzteam nicht einverstanden.','Best decision of your life. Finance strongly disagrees.','La decisione migliore della tua vita. Il reparto finanze non è d’accordo.'),fx:{money:-1300,happy:4,time:-2}},
+      {cat:'relationship',icon:'🍝',title:T('Freunde kochen für dich','Friends cook for you','Gli amici cucinano per te'),joke:T('Du bringst nur Wein mit. Aus Versehen den guten.','You only bring wine. Accidentally, the good one.','Porti solo il vino. Per sbaglio, quello buono.'),fx:{money:-70,happy:3,time:1}},
+
+      {cat:'career',icon:'📈',title:T('Gehaltserhöhung!','Pay rise!','Aumento di stipendio!'),joke:T('Die Inflation schickt ein Herz-Emoji.','Inflation sends a heart emoji.','L’inflazione manda un cuore.'),fx:{money:1100,happy:1}},
+      {cat:'career',icon:'🪜',title:T('Beförderung!','Promotion!','Promozione!'),joke:T('Mehr Verantwortung, mehr Meetings, bessere Signatur.','More responsibility, more meetings, a better email signature.','Più responsabilità, più riunioni, firma email migliore.'),fx:{money:1800,time:-3,happy:1}},
+      {cat:'career',icon:'✈️',title:T('Geschäftsreise um 06:10','Business trip at 06:10','Trasferta alle 06:10'),joke:T('Networking beginnt am Gate. Lebensfreude später.','Networking begins at the gate. Joy may follow later.','Il networking inizia al gate. La gioia forse più tardi.'),fx:{money:300,time:-2,happy:-1}},
+      {cat:'career',icon:'🏆',title:T('Du löst das Problem','You solve the problem','Risolvi il problema'),joke:T('Es war Neustarten. Die IT nickt respektvoll.','The solution was restarting. IT nods respectfully.','La soluzione era riavviare. L’IT annuisce con rispetto.'),fx:{money:400,happy:2,time:1}},
+
+      {cat:'luck',icon:'🧾',title:T('Steuerrückzahlung!','Tax refund!','Rimborso fiscale!'),joke:T('Es war immer dein Geld. Trotzdem fühlt es sich wie ein Gewinn an.','It was always your money. It still feels like a prize.','Erano già soldi tuoi. Sembra comunque una vincita.'),fx:{money:950,happy:1}},
+      {cat:'luck',icon:'🧥',title:T('Geld in alter Jacke gefunden','Money found in an old jacket','Soldi trovati in una vecchia giacca'),joke:T('Das Universum entschuldigt sich in bar.','The universe apologizes in cash.','L’universo si scusa in contanti.'),fx:{money:100,happy:2}},
+      {cat:'luck',icon:'🔧',title:T('Mit Video-Tutorial repariert','Fixed with a video tutorial','Riparato con un video tutorial'),joke:T('Es funktioniert. Niemand ist auf dieses Selbstbewusstsein vorbereitet.','It works. Nobody is ready for this level of confidence.','Funziona. Nessuno è pronto per tutta questa autostima.'),fx:{money:450,happy:2,time:-1}},
+      {cat:'luck',icon:'🛫',title:T('Flug überbucht','Flight overbooked','Volo in overbooking'),joke:T('Du nimmst freiwillig den nächsten. Plötzlich ist Warten ein Geschäftsmodell.','You volunteer for the next one. Waiting is suddenly a business model.','Prendi volontariamente il prossimo. Aspettare diventa un modello di business.'),fx:{money:600,time:-2,happy:1}},
+
+      {cat:'decision',icon:'📱',title:T('Dein Smartphone ist schon drei Jahre alt','Your phone is already three years old','Il tuo smartphone ha già tre anni'),joke:T('Es funktioniert. Das macht die Entscheidung überraschend kompliziert.','It works. This makes the decision surprisingly difficult.','Funziona. Questo rende la decisione sorprendentemente difficile.'),choices:[
+        {label:T('Weiterbenutzen','Keep using it','Continua a usarlo'),detail:T('Vernünftig. Fast verdächtig.','Sensible. Almost suspicious.','Ragionevole. Quasi sospetto.'),fx:{happy:-1,time:1}},
+        {label:T('Neues Modell kaufen','Buy the new model','Compra il nuovo modello'),detail:T('Die Kamera ist 4 % kameriger.','The camera is 4% more camera.','La fotocamera è più fotocamera del 4%.'),fx:{money:-1200,happy:2}},
+        {label:T('Ultra Pro Max Titanium','Ultra Pro Max Titanium','Ultra Pro Max Titanium'),detail:T('Du fotografierst hauptsächlich Kassenzettel.','You mainly photograph receipts.','Fotografi soprattutto scontrini.'),fx:{money:-1700,happy:3,time:-1}}]},
+      {cat:'decision',icon:'🍳',title:T('Du könntest heute kochen','You could cook tonight','Potresti cucinare stasera'),joke:T('Alle Zutaten wären da. Theoretisch.','All the ingredients are there. Theoretically.','Ci sono tutti gli ingredienti. In teoria.'),choices:[
+        {label:T('Selbst kochen','Cook','Cucina'),detail:T('Gesund und erstaunlich essbar.','Healthy and surprisingly edible.','Sano e sorprendentemente commestibile.'),fx:{money:-20,time:-1,happy:1}},
+        {label:T('Lieferdienst','Order delivery','Ordina a domicilio'),detail:T('45 Minuten App-Studium, dann Pizza.','45 minutes studying the app, then pizza.','45 minuti a studiare l’app, poi pizza.'),fx:{money:-60,time:1,happy:1}},
+        {label:T('„Kurz irgendwo essen“','“Just grab something outside”','“Mangiamo qualcosa fuori”'),detail:T('Drei Gänge später.','Three courses later.','Tre portate dopo.'),fx:{money:-140,time:-1,happy:3}}]},
+      {cat:'decision',icon:'🧠',title:T('Du entdeckst ein neues KI-Tool','You discover a new AI tool','Scopri un nuovo strumento IA'),joke:T('Es verspricht, dein halbes Leben zu automatisieren. Die andere Hälfte ist Login.','It promises to automate half your life. The other half is logging in.','Promette di automatizzare metà della tua vita. L’altra metà è il login.'),choices:[
+        {label:T('„Nur ein Hype“','“Just hype”','“È solo hype”'),detail:T('Du bleibst authentisch beschäftigt.','You remain authentically busy.','Rimani autenticamente occupato.'),fx:{time:-1}},
+        {label:T('Ausprobieren','Try it','Provalo'),detail:T('Zwei Aufgaben schneller, eine neue Ablenkung.','Two tasks faster, one new distraction.','Due compiti più veloci, una nuova distrazione.'),fx:{money:350,time:1,happy:1}},
+        {label:T('Alles automatisieren','Automate everything','Automatizza tutto'),detail:T('Mutig. Auch die Kaffeemaschine hat jetzt einen Workflow.','Bold. Even your coffee machine has a workflow.','Audace. Anche la macchina del caffè ora ha un workflow.'),fx:{money:900,time:3,happy:-1}}]},
+      {cat:'decision',icon:'🏠',title:T('Freunde renovieren ihre Küche','Your friends renovate their kitchen','Gli amici ristrutturano la cucina'),joke:T('Bis gestern fandest du deine völlig in Ordnung.','Until yesterday, yours was perfectly fine.','Fino a ieri, la tua andava benissimo.'),choices:[
+        {label:T('Tief durchatmen','Breathe deeply','Respira profondamente'),detail:T('Deine Küche bleibt mutig zeitlos.','Your kitchen remains bravely timeless.','La tua cucina resta coraggiosamente senza tempo.'),fx:{happy:1}},
+        {label:T('Nur neue Griffe','Just new handles','Solo nuove maniglie'),detail:T('Der kontrollierte Einstieg. Angeblich.','The controlled entry point. Allegedly.','Il primo passo controllato. Pare.'),fx:{money:-300,time:-1,happy:1}},
+        {label:T('Komplett neu','Redo everything','Rifai tutto'),detail:T('Pinterest übernimmt die Projektleitung.','Pinterest takes over project management.','Pinterest assume la direzione lavori.'),fx:{money:-5000,time:-3,happy:3}}]},
+      {cat:'decision',icon:'📵',title:T('Digital Detox am Wochenende','Digital detox weekend','Detox digitale nel weekend'),joke:T('Dein Daumen fragt, was er jetzt beruflich machen soll.','Your thumb wonders what to do professionally now.','Il pollice si chiede che lavoro fare adesso.'),choices:[
+        {label:T('Handy aus','Phone off','Spegni il telefono'),detail:T('Vögel! Bäume! Unangenehm viele Gedanken!','Birds! Trees! An alarming number of thoughts!','Uccelli! Alberi! Un numero preoccupante di pensieri!'),fx:{time:3,happy:2}},
+        {label:T('Nur Benachrichtigungen aus','Notifications off','Disattiva solo le notifiche'),detail:T('Du prüfst nur 46-mal, ob etwas kam.','You check only 46 times whether anything arrived.','Controlli solo 46 volte se è arrivato qualcosa.'),fx:{time:1,happy:1}},
+        {label:T('Detox-Video posten','Post a detox video','Pubblica un video sul detox'),detail:T('Achtsamkeit, aber mit Engagement-Rate.','Mindfulness, with engagement metrics.','Consapevolezza, ma con engagement rate.'),fx:{money:150,time:-2,happy:-1}}]},
+      {cat:'decision',icon:'💼',title:T('Ein neuer Job winkt','A new job is calling','Un nuovo lavoro ti chiama'),joke:T('Mehr Geld, neues Passwort, unbekannte Kaffeemaschine.','More money, a new password, an unfamiliar coffee machine.','Più soldi, nuova password, macchina del caffè sconosciuta.'),choices:[
+        {label:T('Bleiben','Stay','Resta'),detail:T('Du kennst immerhin alle Abkürzungen.','At least you know all the acronyms.','Almeno conosci tutte le sigle.'),fx:{happy:1,time:1}},
+        {label:T('Wechseln','Switch','Cambia'),detail:T('LinkedIn nennt es „eine neue Reise“.','LinkedIn calls it “a new journey.”','LinkedIn la chiama “un nuovo viaggio”.'),fx:{money:2200,time:-2,happy:2}},
+        {label:T('Sabbatical','Take a sabbatical','Prendi un anno sabbatico'),detail:T('Karriere macht kurz Pufferung.','Your career briefly starts buffering.','La carriera va per un po’ in buffering.'),fx:{money:-1600,time:4,happy:3}}]}
+    ];
+
+    const catMeta={subscription:{icon:'📺',cls:'c-subscription'},ai:{icon:'🤖',cls:'c-ai'},shopping:{icon:'📦',cls:'c-shopping'},homeoffice:{icon:'💻',cls:'c-homeoffice'},relationship:{icon:'❤️',cls:'c-relationship'},career:{icon:'💼',cls:'c-career'},luck:{icon:'🍀',cls:'c-luck'},decision:{icon:'↔️',cls:'c-decision'}};
+    const pathCats=['subscription','ai','shopping','homeoffice','relationship','career','luck','decision','shopping','ai','career','decision','subscription','homeoffice','luck','relationship','decision','career','shopping','ai','luck','decision','homeoffice','relationship','subscription','career','decision','shopping','ai','luck','relationship','decision','homeoffice','career'];
+    const colors=['#ef5b5b','#3d7ee8','#43b89c','#8c68d6'];
+    const diceFaces=['⚀','⚁','⚂','⚃','⚄','⚅'];
+    let lang=localStorage.getItem('lifelol-lang')||'de', playerCount=2, players=[], current=0, round=1, rolling=false, started=false;
+    const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+    const text=o=>typeof o==='string'?o:o[lang];
+    const money=n=>new Intl.NumberFormat(lang==='de'?'de-DE':lang==='it'?'it-IT':'en-GB',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n);
+    const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
+    function setLanguage(next){lang=next;document.documentElement.lang=lang;localStorage.setItem('lifelol-lang',lang);$$('.lang button').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));renderStatic();renderNames();if(started){renderBoard();renderPlayers();renderLogHeading();renderTurn();}}
+    function renderStatic(){const x=L[lang];$('#subtitle').textContent=x.subtitle;$('#kicker').textContent=x.kicker;$('#setupTitle').innerHTML=x.setupTitle;$('#setupLead').textContent=x.setupLead;$('#moneyLabel').textContent=x.money;$('#happyLabel').textContent=x.happy;$('#timeLabel').textContent=x.time;$('#playerCountLabel').textContent=x.players;$('#startBtn').textContent=x.start;$('#setupNote').textContent=x.note;$('#turnHint').textContent=x.hint;$('#rollBtn').textContent=x.roll;$('#logTitle').textContent=x.log;$('#restartBtn').title=x.restart;renderLegend();}
+    function renderNames(){const old=$$('.name-wrap input').map(i=>i.value);$('#names').innerHTML='';for(let i=0;i<playerCount;i++){const w=document.createElement('label');w.className='name-wrap';w.innerHTML=`<span>${['🦊','🐼','🦁','🐙'][i]}</span><input maxlength="18" aria-label="${L[lang].player} ${i+1}" value="${old[i]||L[lang].player+' '+(i+1)}">`;$('#names').appendChild(w);}}
+    function renderLegend(){if(!$('#legend'))return;$('#legend').innerHTML=Object.entries(catMeta).map(([k,v])=>`<span>${v.icon} ${L[lang].categories[k]}</span>`).join('');}
+    function startGame(){players=$$('.name-wrap input').map((i,n)=>({name:i.value.trim()||`${L[lang].player} ${n+1}`,pos:0,money:5000,happy:5,time:5,color:colors[n],log:[]}));current=0;round=1;started=true;$('#setup').style.display='none';$('#game').style.display='grid';renderBoard();renderPlayers();renderTurn();renderLogHeading();addLog(`${players[0].name}: ${L[lang].hint}`);}
+    function boardSequence(){const out=[];for(let visualRow=0;visualRow<6;visualRow++){const logicalRow=5-visualRow;let nums=[0,1,2,3,4,5].map(c=>logicalRow*6+c);if(logicalRow%2===1)nums.reverse();out.push(...nums);}return out;}
+    function renderBoard(){const board=$('#board');board.innerHTML='';boardSequence().forEach(pos=>{const s=document.createElement('div');let cat=pos===0?'start':pos===35?'finish':pathCats[(pos-1)%pathCats.length];const meta=catMeta[cat];s.className=`space ${cat==='start'?'c-start':cat==='finish'?'c-finish':meta.cls}`;if(players.some((p,i)=>p.pos===pos&&i===current))s.classList.add('current');const label=cat==='start'?L[lang].startSpace:cat==='finish'?L[lang].finish:L[lang].categories[cat];s.innerHTML=`<span class="num">${pos}</span><span class="space-icon">${cat==='start'?'🚀':cat==='finish'?'🏁':meta.icon}</span><span class="label">${label}</span><div class="tokens"></div>`;players.forEach((p,i)=>{if(p.pos===pos){const t=document.createElement('span');t.className='token';t.style.background=p.color;t.textContent=i+1;t.title=p.name;s.querySelector('.tokens').appendChild(t);}});board.appendChild(s);});}
+    function renderPlayers(){const box=$('#players');box.innerHTML='';players.forEach((p,i)=>{const card=document.createElement('div');card.className='player-card'+(i===current?' active':'');card.innerHTML=`<div class="avatar" style="background:${p.color}">${i+1}</div><div><h3>${escapeHtml(p.name)}</h3><div class="stats"><span class="stat">💰 ${money(p.money)}</span><span class="stat">❤️ ${p.happy}</span><span class="stat">⏱️ ${p.time}</span><span class="stat">📍 ${p.pos}/35</span></div></div>`;box.appendChild(card);});}
+    function renderTurn(){if(!started)return;$('#turnTitle').innerHTML=`<span style="color:${players[current].color}">${escapeHtml(players[current].name)}</span> ${L[lang].turn}`;$('#roundLabel').textContent=`${L[lang].round} ${round}`;$('#rollBtn').textContent=L[lang].roll;$('#rollBtn').disabled=rolling;}
+    function renderLogHeading(){const h=$('#log h3');if(h)h.textContent=L[lang].log;renderLegend();}
+    function addLog(line){const e=document.createElement('div');e.className='log-entry';e.textContent=line;const log=$('#log');log.insertBefore(e,log.children[1]||null);while(log.querySelectorAll('.log-entry').length>7)log.lastElementChild.remove();}
+    function roll(){if(rolling)return;rolling=true;$('#rollBtn').disabled=true;$('#rollBtn').textContent=L[lang].rolling;let ticks=0;const anim=setInterval(()=>{$('#die').textContent=diceFaces[Math.floor(Math.random()*6)];if(++ticks>=10){clearInterval(anim);const n=1+Math.floor(Math.random()*6);$('#die').textContent=diceFaces[n-1];addLog(`${players[current].name} ${L[lang].rolled} ${n}.`);movePlayer(n);}},70);}
+    function movePlayer(steps){const p=players[current];const target=Math.min(35,p.pos+steps);let x=p.pos;const timer=setInterval(()=>{x++;p.pos=x;renderBoard();renderPlayers();if(x>=target){clearInterval(timer);setTimeout(()=>land(),220);}},130);}
+    function land(){const p=players[current];if(p.pos>=35){rolling=false;finishGame();return;}const cat=pathCats[(p.pos-1)%pathCats.length];const pool=cards.filter(c=>c.cat===cat);const card=pool[Math.floor(Math.random()*pool.length)];addLog(`${p.name} ${L[lang].landed} „${text(card.title)}“`);showEvent(card);}
+    function effectHTML(fx){const bits=[];if(fx.money)bits.push(`<span class="effect">💰 ${fx.money>0?'+':''}${money(fx.money)}</span>`);if(fx.happy)bits.push(`<span class="effect">❤️ ${fx.happy>0?'+':''}${fx.happy}</span>`);if(fx.time)bits.push(`<span class="effect">⏱️ ${fx.time>0?'+':''}${fx.time}</span>`);return bits.join('');}
+    function showEvent(card){const meta=catMeta[card.cat];const el=$('#eventCard');el.innerHTML=`<div><span class="event-icon">${card.icon}</span><span class="event-tag">${L[lang].categories[card.cat]}</span></div><h2>${text(card.title)}</h2><p class="joke">${text(card.joke)}</p>`;if(card.choices){el.innerHTML+=`<p><strong>${L[lang].choose}</strong></p><div class="choices">${card.choices.map((c,i)=>`<button class="choice" data-choice="${i}"><strong>${String.fromCharCode(65+i)} · ${text(c.label)}</strong><small>${text(c.detail)}</small><div class="effect-box">${effectHTML(c.fx)}</div></button>`).join('')}</div>`;el.querySelectorAll('.choice').forEach(b=>b.addEventListener('click',()=>resolveEvent(card.choices[+b.dataset.choice].fx,text(card.choices[+b.dataset.choice].label))));}else{el.innerHTML+=`<div class="effect-box">${effectHTML(card.fx)}</div><button class="primary continue" id="continueBtn">${L[lang].continue}</button>`;el.querySelector('#continueBtn').addEventListener('click',()=>resolveEvent(card.fx,text(card.title)));}$('#eventModal').classList.add('show');}
+    function resolveEvent(fx,label){const p=players[current];p.money+=fx.money||0;p.happy=clamp(p.happy+(fx.happy||0),0,10);p.time=clamp(p.time+(fx.time||0),0,10);addLog(`${p.name}: ${label} · ${plainEffects(fx)}`);$('#eventModal').classList.remove('show');renderPlayers();nextTurn();}
+    function plainEffects(fx){const b=[];if(fx.money)b.push(`💰${fx.money>0?'+':''}${money(fx.money)}`);if(fx.happy)b.push(`❤️${fx.happy>0?'+':''}${fx.happy}`);if(fx.time)b.push(`⏱️${fx.time>0?'+':''}${fx.time}`);return b.join(' ');}
+    function nextTurn(){current++;if(current>=players.length){current=0;round++;}rolling=false;renderBoard();renderPlayers();renderTurn();}
+    function finishGame(){const ranked=[...players].map(p=>({...p,score:Math.round(p.money/100+p.happy*10+p.time*10+p.pos)})).sort((a,b)=>b.score-a.score);const e=$('#endCard');e.innerHTML=`<div class="event-icon">🏁</div><h2>${L[lang].finalTitle}</h2><p class="joke">${L[lang].finalText}</p><div class="ranking">${ranked.map((p,i)=>`<div class="rank"><span class="place">${['🥇','🥈','🥉','4.'][i]}</span><span><strong>${escapeHtml(p.name)}</strong><br><small>💰 ${money(p.money)} · ❤️ ${p.happy} · ⏱️ ${p.time}</small></span><span class="score">${p.score}<br><small>${L[lang].score}</small></span></div>`).join('')}</div><p><strong>${escapeHtml(ranked[0].name)} ${L[lang].winner}</strong></p><button class="primary" id="againBtn">${L[lang].again}</button>`;$('#endModal').classList.add('show');$('#againBtn').addEventListener('click',reset);celebrate();}
+    function celebrate(){const c=$('#confetti');c.innerHTML='';for(let i=0;i<55;i++){const x=document.createElement('i');x.style.left=Math.random()*100+'vw';x.style.background=colors[i%colors.length];x.style.animationDelay=Math.random()*.8+'s';x.style.transform=`rotate(${Math.random()*180}deg)`;c.appendChild(x);}setTimeout(()=>c.innerHTML='',3800);}
+    function askReset(){if(!started){reset();return;}const el=$('#eventCard');el.innerHTML=`<div class="event-icon">↻</div><h2>${L[lang].restart}</h2><p class="joke">${L[lang].restartText}</p><div class="choices"><button class="choice" id="yesReset"><strong>${L[lang].yes}</strong></button><button class="choice" id="noReset"><strong>${L[lang].no}</strong></button></div>`;$('#eventModal').classList.add('show');$('#yesReset').onclick=reset;$('#noReset').onclick=()=>$('#eventModal').classList.remove('show');}
+    function reset(){started=false;rolling=false;players=[];current=0;round=1;$('#eventModal').classList.remove('show');$('#endModal').classList.remove('show');$('#game').style.display='none';$('#setup').style.display='block';$('#die').textContent='⚄';renderNames();window.scrollTo({top:0,behavior:'smooth'});}
+    function escapeHtml(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
+    $$('.lang button').forEach(b=>b.addEventListener('click',()=>setLanguage(b.dataset.lang)));
+    $$('.count-btn').forEach(b=>b.addEventListener('click',()=>{playerCount=+b.dataset.count;$$('.count-btn').forEach(x=>x.classList.toggle('active',x===b));renderNames();}));
+    $('#startBtn').addEventListener('click',startGame);$('#rollBtn').addEventListener('click',roll);$('#restartBtn').addEventListener('click',askReset);
+    setLanguage(lang);renderNames();
+  })();
+  </script>
+</body>
+</html>
