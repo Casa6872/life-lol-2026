@@ -105,7 +105,45 @@
     .confetti i{position:absolute;top:-20px;width:10px;height:18px;animation:fall 2.7s linear forwards}
     @keyframes fall{to{transform:translateY(110vh) rotate(780deg)}}
     @media(max-width:1000px){.game{grid-template-columns:1fr}.side{position:static;grid-template-columns:1fr 1fr}.side .panel:first-child{grid-column:1/-1}.board{aspect-ratio:auto;min-height:620px}}
-    @media(max-width:650px){.shell{width:94vw}.topbar{align-items:flex-start}.brand p{display:none}.logo{width:48px;height:48px}.controls{gap:6px}.icon-btn{padding:8px}.names{grid-template-columns:1fr}.setup{border-radius:22px}.board-wrap{overflow-x:auto;padding:10px}.board{min-width:630px;min-height:580px}.side{grid-template-columns:1fr}.side .panel:first-child{grid-column:auto}.event-card{border-radius:22px}.space .label{font-size:.58rem}}
+    @media(max-width:650px){
+      html,body{overflow-x:hidden}
+      .shell{width:100%;padding:10px 12px 24px}
+      .topbar{align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+      .brand{flex:1 1 auto}.brand p{display:none}.brand h1{font-size:clamp(1.25rem,7vw,1.65rem)}
+      .logo{width:48px;height:48px;border-radius:15px;font-size:26px;box-shadow:4px 4px 0 var(--ink)}
+      .controls{width:100%;justify-content:space-between;gap:8px}
+      .lang{flex:1;justify-content:space-around}.lang button{flex:1;min-height:40px;padding:7px 9px}
+      .icon-btn{min-width:44px;min-height:44px;padding:8px}
+      .setup{margin:2vh auto 0;padding:22px 18px 26px;border-radius:22px}
+      .setup h2{margin-top:18px}.pill-row{margin:20px 0}.player-count{gap:10px;margin-top:20px}
+      .count-btn{width:46px;height:46px}.names{grid-template-columns:1fr}.primary{min-height:48px}
+      .game{gap:12px}
+      .board-wrap{overflow:visible;padding:8px;border-radius:20px;box-shadow:var(--shadow),4px 4px 0 var(--ink)}
+      .board{width:100%;min-width:0;min-height:0;aspect-ratio:auto;grid-template-columns:repeat(6,minmax(0,1fr));grid-template-rows:repeat(6,minmax(52px,1fr));gap:4px}
+      .space{min-height:52px;border-width:1.5px;border-radius:10px;padding:4px;box-shadow:1.5px 1.5px 0 var(--ink)}
+      .space.current{outline-width:3px;transform:translateY(-1px)}
+      .space .num{font-size:.5rem}.space .space-icon{right:4px;top:4px;font-size:.9rem}
+      .space .label{left:4px;right:3px;bottom:4px;font-size:clamp(.38rem,1.75vw,.52rem);line-height:1}
+      .tokens{left:4px;top:18px;gap:1px;max-width:82%}.token{width:14px;height:14px;border-width:1.5px;font-size:.43rem;box-shadow:none}
+      .side{grid-template-columns:1fr;gap:10px}.side .panel:first-child{grid-column:auto}
+      .panel{padding:12px;border-radius:18px;box-shadow:var(--shadow),4px 4px 0 var(--ink)}
+      .turnline{align-items:flex-start}.round{flex:0 0 auto}.dice-zone{grid-template-columns:72px 1fr;gap:10px}
+      .die{width:68px;height:68px;border-radius:17px;font-size:2.2rem;box-shadow:4px 4px 0 var(--ink)}
+      .roll{min-height:46px}.player-card{padding:8px}.log{max-height:120px}
+      .modal{padding:12px;align-items:center}
+      .event-card{width:100%;max-width:calc(100vw - 24px);max-height:calc(100dvh - 24px);padding:20px 18px calc(20px + env(safe-area-inset-bottom));border-radius:20px;box-shadow:6px 6px 0 var(--ink)}
+      .event-icon{font-size:3rem}.event-tag{margin-left:5px}.event-card h2{margin:14px 0 9px}
+      .event-card .joke{font-size:1rem;margin-bottom:14px}.effect-box{margin:14px 0}.effect{padding:8px 10px}
+      .choices{margin-top:16px}.choice{min-height:48px;padding:11px 12px}.continue{min-height:50px}
+      .rank{grid-template-columns:34px 1fr auto;padding:8px;gap:6px}.rank .place{font-size:1.2rem}
+    }
+    @media(max-width:380px){
+      .shell{padding-left:9px;padding-right:9px}.logo{width:44px;height:44px}
+      .board-wrap{padding:6px}.board{grid-template-rows:repeat(6,minmax(46px,1fr));gap:3px}
+      .space{min-height:46px;border-radius:8px;padding:3px}.space .space-icon{right:3px;top:3px;font-size:.82rem}
+      .space .label{left:3px;right:2px;bottom:3px;font-size:.36rem}.tokens{left:3px;top:16px}.token{width:12px;height:12px;font-size:.38rem}
+      .event-card{padding-left:16px;padding-right:16px}
+    }
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}
   </style>
 </head>
